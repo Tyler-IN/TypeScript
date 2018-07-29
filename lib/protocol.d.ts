@@ -519,7 +519,7 @@ declare namespace ts.server.protocol {
         /**
          * Errorcodes we want to get the fixes for.
          */
-        errorCodes?: ReadonlyArray<number>;
+        errorCodes: ReadonlyArray<number>;
     }
     interface GetCombinedCodeFixRequestArgs {
         scope: GetCombinedCodeFixScope;
@@ -590,6 +590,12 @@ declare namespace ts.server.protocol {
      */
     interface DefinitionRequest extends FileLocationRequest {
         command: CommandTypes.Definition;
+    }
+    interface DefinitionAndBoundSpanRequest extends FileLocationRequest {
+        readonly command: CommandTypes.DefinitionAndBoundSpan;
+    }
+    interface DefinitionAndBoundSpanResponse extends Response {
+        readonly body: DefinitionInfoAndBoundSpan;
     }
     /**
      * Go to type request; value of command field is
