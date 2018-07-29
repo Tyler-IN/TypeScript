@@ -5,6 +5,75 @@
 
 # TypeScript
 
+**Patched version of TypeScript to support MJS file emission.**
+
+Install the `ts-mjs` package as a `devDependency` with `yarn add -D ts-mjs` or `npm install --save-dev ts-mjs`.
+
+Everything stays the same, but you can now call the patched version of `tsc` as `tsc-mjs` and if you can add the compiler option `--mjs` to emit `.mjs` files instead of `.js` files.
+
+These are required for NodeJS to correctly identify MJS modules as such.
+
+If you use the `--sourceMap` compiler option, this will also emit the corresponding `.mjs.map` source map for your `.mjs` file.
+
+If the output target for JSX would be preserve via one of the compiler options, regular JSX code with the regular extension `.jsx` will be emitted.
+
+For example, if you run
+
+```sh
+tsc --sourceMap --declaration --target es3 --module commonjs index.ts
+```
+
+this will emit
+
+```txt
+index.d.ts (the declaration file)
+index.js (the CommonJS ES3 module)
+index.js.map (the source map for the CommonJS module)
+```
+
+If you run
+
+```sh
+tsc-mjs --sourceMap --declaration --target esnext --module esnext --mjs index.ts
+```
+
+```txt
+index.d.ts (the declaration file)
+index.mjs (the ES module)
+index.mjs.map (the source map for the ES module)
+```
+
+The declaration files that are generated will be identical in both cases.
+
+You can use this to publish hybrid modules by running both commands in succession (or in parallel, since they won't interfere with each other). The output will be:
+
+```txt
+index.d.ts (the declaration file)
+index.js (the CommonJS ES3 module)
+index.js.map (the source map for the CommonJS module)
+index.mjs (the ES module)
+index.mjs.map (the source map for the ES module)
+```
+
+If you have other source files, the corresponding 5 files will be generated for them.
+
+If someone enters your package now via an `.mjs` file, node will automatically search for `.mjs` file in all `import` (or `require`) statements (and it will fall back to `.js` should an `.mjs` file not exist).
+
+In your `package.json`, you can make the `main` field "dynamic" by removing the extension of the linked file.
+
+```json
+{
+    "main": "index",
+    "browser": "index.js",
+    "module": "index.mjs",
+    "types": "index.d.ts"
+}
+```
+
+For a real-life example of this being in use, check out my `hsluv-ts` library ([Github](https://github.com/gfmio/hsluv-ts), [NPM](https://www.npmjs.com/package/hsluv-ts)).
+
+---
+
 [![Join the chat at https://gitter.im/Microsoft/TypeScript](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Microsoft/TypeScript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [TypeScript](https://www.typescriptlang.org/) is a language for application-scale JavaScript. TypeScript adds optional types, classes, and modules to JavaScript. TypeScript supports tools for large-scale JavaScript applications for any browser, for any host, on any OS. TypeScript compiles to readable, standards-based JavaScript. Try it out at the [playground](https://www.typescriptlang.org/play/), and stay up to date via [our blog](https://blogs.msdn.microsoft.com/typescript) and [Twitter account](https://twitter.com/typescriptlang).
