@@ -215,6 +215,12 @@ namespace ts {
             description: Diagnostics.Specify_JSX_code_generation_Colon_preserve_react_native_or_react,
         },
         {
+            name: "mjs",
+            type: "boolean",
+            category: Diagnostics.Basic_Options,
+            description: Diagnostics.Emit_MJS_Files
+        },
+        {
             name: "declaration",
             shortName: "d",
             type: "boolean",

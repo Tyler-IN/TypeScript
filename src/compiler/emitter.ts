@@ -90,7 +90,7 @@ namespace ts {
                 return Extension.Jsx;
             }
         }
-        return Extension.Js;
+        return options.mjs ? Extension.Mjs : Extension.Js;
     }
 
     /*@internal*/

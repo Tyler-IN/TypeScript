@@ -4350,6 +4350,7 @@ namespace ts {
         locale?: string;
         mapRoot?: string;
         maxNodeModuleJsDepth?: number;
+        mjs?: boolean;
         module?: ModuleKind;
         moduleResolution?: ModuleResolutionKind;
         newLine?: NewLineKind;
@@ -4794,6 +4795,7 @@ namespace ts {
         Ts = ".ts",
         Tsx = ".tsx",
         Dts = ".d.ts",
+        Mjs = ".mjs",
         Js = ".js",
         Jsx = ".jsx",
         Json = ".json"
